@@ -31,6 +31,8 @@ const products = [
 ];
 
 const shoppingCart = JSON.parse(localStorage.getItem('carro')) || [];
+counterCart();
+cartview();
 
 //Desestructuracion de array con SPREAD
 const [a,b,c, ...resto] = products
@@ -97,14 +99,17 @@ function addShoppingCart (id) {
     //buscamos dentro del nuevo array los productos con id iguales y los agrupamos
     let SumaProductosEnCarrito = shoppingCart.find (products => products.id === id);
             
-    if (SumaProductosEnCarrito){
-        SumaProductosEnCarrito.quantity++;
-    } else{
-        datos.quantity = 1;
-        shoppingCart.push(datos);
-        console.log(shoppingCart);
+    // if (SumaProductosEnCarrito){
+    //     SumaProductosEnCarrito.quantity++;
+    // } else{
+    //     datos.quantity = 1;
+    //     shoppingCart.push(datos);
+    //     console.log(shoppingCart);
         
-    }
+    // }
+    
+    //operador anvanzado TERNARIO  (reemplaza al if-else)
+    SumaProductosEnCarrito ? SumaProductosEnCarrito.quantity++ : (datos.quantity = 1, shoppingCart.push(datos));
 
 
     //mensaje de confirmación incorporacion al carrito
@@ -152,6 +157,7 @@ function  cartview (){
         //evento al boton eliminar para los productos en el carrito
         div.querySelector('.btnEliminar').addEventListener ('click', () =>{
             deleteProductOfCart (id);
+            saveProductStorage (shoppingCart);
         })
 
 
@@ -246,12 +252,6 @@ const getProductStorage = () => {
     
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('carro')) {
-        shoppingCart = getProductStorage();
-        
-    }
-})
 
 
 
